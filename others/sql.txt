@@ -1,0 +1,29 @@
+・0無しで検索する（
+1.3134 ok　必須
+2.003134 ok  必須
+3.0003134 ok
+4.0023134 x
+5.31340 x
+insert into test (name, tell) values ('3134,77', '');
+insert into test (name, tell) values ('77,003134', '');
+insert into test (name, tell) values ('0003134', '');
+insert into test (name, tell) values ('77,0023134', '');
+insert into test (name, tell) values ('77,31340', '');
+
+select * from test WHERE (CONCAT(",", `name`, ",") REGEXP ",(003134),") OR (CONCAT(",", `tell`, ",") REGEXP ",(12|14|13),");
+2だけOK
+
+select * from test WHERE (CONCAT(",", `name`, ",") REGEXP ",(3134),") OR (CONCAT(",", `tell`, ",") REGEXP ",(12|14|13),");
+1だけOK
+
+select * from test WHERE (CONCAT(",", `name`, ",") REGEXP ",(003134|3134),") OR (CONCAT(",", `tell`, ",") REGEXP ",(12|14|13),");
+1,2はOK(0つける時は正しい桁数で入力)
+
+insert into test (name, tell) values ('77', '12');
+insert into test (name, tell) values ('', '13');
+insert into test (name, tell) values ('', '14');
+insert into test (name, tell) values ('', '55,13');
+insert into test (name, tell) values ('', '14,99');
+insert into test (name, tell) values ('', '11,12,99');
+insert into test (name, tell) values ('', '122');
+insert into test (name, tell) values ('3134', '12');
